@@ -4,7 +4,7 @@ import MyPosts from './MyPosts/MyPosts';
 
 const Profile = () => {
     return (
-        <div className='content'>
+        <div>
             <div>
                 <img src='http://wowslider.com/sliders/demo-18/data1/images/hongkong1081704.jpg' />
             </div>
