@@ -4,12 +4,15 @@ import './index.css';
 import * as serviceWorker from './serviceWorker';
 import store from "./redux/redux-store";
 import {BrowserRouter} from "react-router-dom";
+import StoreContext from "./StoreContext";
 import App from "./App";
 
 let renderEntireTree = (state) => {
     ReactDOM.render(
         <BrowserRouter>
-            <App state={state} dispatch={store.dispatch.bind(store)}/>
+            <StoreContext.Provider value={store}>
+                <App />
+            </StoreContext.Provider>
         </BrowserRouter>, document.getElementById('root'));
 }
 
