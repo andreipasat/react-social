@@ -1,6 +1,6 @@
-import React from 'react';
-import s from './Header.module.css';
-import { NavLink } from 'react-router-dom';
+import React from 'react'
+import s from './Header.module.css'
+import { NavLink } from 'react-router-dom'
 
 const Header = (props) => {
     return (
@@ -15,4 +15,4 @@ const Header = (props) => {
     );
 }
 
-export default Header;
+export default Header
