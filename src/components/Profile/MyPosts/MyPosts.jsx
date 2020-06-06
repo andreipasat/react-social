@@ -11,7 +11,9 @@ const MyPosts = (props) => {
         props.addPost(formData.newPost);
     }
 
-    let postsData = props.posts.map( (post) => {
+    let postsData = [...props.posts]
+    .reverse()
+    .map( (post) => {
         return <Post message={post.message} likes={post.likes} key={post.id} />
     } );
 
