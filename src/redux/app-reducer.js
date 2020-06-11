@@ -23,7 +23,11 @@ export const initializedSuccess = () => ({type : SET_INITIALIZED})
 
 export const initializeApp = () => (dispatch) => {
     let promise = dispatch(authMe())
-    promise.then(() => {
+    // promise.then(() => {
+    //     dispatch(initializedSuccess())
+    // })
+
+    Promise.all([promise]).then(() => {
         dispatch(initializedSuccess())
     })
 

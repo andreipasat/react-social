@@ -1,7 +1,7 @@
 import { authAPI } from '../api/api'
 import {stopSubmit} from 'redux-form'
 
-const SET_USER_DATA = 'SET_USER_DATA'
+const SET_USER_DATA = 'social_network/auth/SET_USER_DATA'
 
 let initialState = {
     userId : null,
@@ -30,38 +30,31 @@ const authReducer = (state = initialState, action) => {
 
 export const setAuthUserData = (userId, email, login, isAuth) => ({ type : SET_USER_DATA, payload : {userId, email, login, isAuth}})
 
-export const authMe = () => {
-    return (dispatch) => {
-        return authAPI.authMe().then(response => {
-            let { id, email, login} = response.data
-            if (response.resultCode === 0) {
-                dispatch(setAuthUserData(id, email, login, true))
-            }
-        })
+export const authMe = () => async (dispatch) => {
+    let response = await authAPI.authMe();
+    let { id, email, login} = response.data
+    if (response.resultCode === 0) {
+        dispatch(setAuthUserData(id, email, login, true))
     }
 }
 
-export const login = (email, password, rememberMe) => {
-    
-    return (dispatch) => {
-        authAPI.login(email, password, rememberMe).then(response => {
-            if (response.resultCode === 0) {
-                dispatch(authMe())
-            } else {
-                let message = response.messages.length > 0 ? response.messages[0] : 'Some error'
-                dispatch(stopSubmit('login', {_error : message}))
-            }
-        })
+
+export const login = (email, password, rememberMe) => async (dispatch) => {
+    let response  = await authAPI.login(email, password, rememberMe)
+    if (response.resultCode === 0) {
+        dispatch(authMe())
+    } else {
+        let message = response.messages.length > 0 ? response.messages[0] : 'Some error'
+        dispatch(stopSubmit('login', {_error : message}))
     }
 }
 
-export const logout = () => {
-    return (dispatch) => {
-        authAPI.logout().then(response => {
-            if (response.resultCode === 0) {
-                dispatch(setAuthUserData(null, null, null, false))
-            }
-        })
+
+export const logout = () => async (dispatch) => {
+    let response = await authAPI.logout()
+    // debugger;
+    if (response.resultCode === 0) {
+        dispatch(setAuthUserData(null, null, null, false))
     }
 }
 
