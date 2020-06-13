@@ -19,7 +19,8 @@ const Users = ({
             totalCount={totalUsersCount} 
             currentPage={currentPage}
             pageSize={pageSize} 
-            onPageChanged={onPageChanged} 
+            onPageChanged={onPageChanged}
+            portionSize={10} 
             />
             
             {
