@@ -4,6 +4,8 @@ const ADD_POST = 'social_network/profile/ADD_POST'
 const SET_USER_PROFILE = 'social_network/profile/SET_USER_PROFILE'
 const SET_PROFILE_STATUS = 'social_network/profile/SET_PROFILE_STATUS'
 const DELETE_POST = 'social_network/profile/DELETE_POST'
+const SET_PROFILE_PHOTO = 'social_network/profile/SET_PROFILE_PHOTO'
+
 
 let initialState = {
     posts : [
@@ -13,7 +15,7 @@ let initialState = {
         {id : 4, message : 'How are you3?' , likes : 13},
     ],
     profile : null,
-    status : ''
+    status : '',
 }
 
 const profileReducer = (state = initialState, action) => {
@@ -36,6 +38,10 @@ const profileReducer = (state = initialState, action) => {
         case DELETE_POST : {
             return {...state, posts : state.posts.filter(p => p.id != action)}
         }
+        case SET_PROFILE_PHOTO : {
+            return {...state, profile:{...state.profile, photos : action.photos}}
+        }
+
         default : {
             return state;
         }
@@ -49,6 +55,7 @@ export const addPostActionCreator = (newPost) => ({ type : ADD_POST, newPost });
 export const setUserProfile = (profile) => ({type : SET_USER_PROFILE, profile});
 export const setProfileStatus = (status) => ({type : SET_PROFILE_STATUS, status})
 export const deleteActionCreator = (id) => ({type : DELETE_POST, id})
+export const setProfilePhoto = (photos) => ({type : SET_PROFILE_PHOTO, photos})
 
 export const getProfile = (userId) => async (dispatch) => {
     let response = await profileAPI.getProfile(userId)
@@ -63,6 +70,11 @@ export const getStatus = (userId) => async (dispatch) => {
 export const updateStatus = (status) => async (dispatch) => {
     let response = await profileAPI.updateStatus(status);
     if (response.resultCode === 0) dispatch(setProfileStatus(status))
+}
+
+export const savePhoto = (photo) => async (dispatch) => {
+    let response = await profileAPI.savePhoto(photo)
+    if (response.resultCode === 0) dispatch(setProfilePhoto(response.data.photos))
 }
 
 export default profileReducer;
